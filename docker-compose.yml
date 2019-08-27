@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  irods-catalog-provider:
+    build:
+        context: topology
+        dockerfile: Dockerfile.provider
+    hostname: icat.example.org
+    networks:
+      default:
+        aliases:
+          - icat.example.org
+    volumes:
+      - /home/alanking/projects/builds/irods:/irods_packages:ro
+      - /home/alanking/projects/builds/icommands:/icommands_packages:ro
+  irods-catalog-consumer-resource1:
+    build:
+        context: topology
+        dockerfile: Dockerfile.consumer
+    hostname: resource1.example.org
+    networks:
+      default:
+        aliases:
+          - resource1.example.org
+    depends_on:
+      - irods-catalog-provider
+  irods-automated-ingest:
+    build:
+        context: ingest
+        dockerfile: Dockerfile.ingest
+    hostname: irods-ingest.example.org
+    networks:
+      default:
+        aliases:
+          - irods-ingest.example.org
+    depends_on:
+      - irods-catalog-provider
