@@ -10,9 +10,6 @@ services:
       default:
         aliases:
           - icat.example.org
-    volumes:
-      - /home/alanking/projects/builds/irods:/irods_packages:ro
-      - /home/alanking/projects/builds/icommands:/icommands_packages:ro
   irods-catalog-consumer-resource1:
     build:
         context: topology
