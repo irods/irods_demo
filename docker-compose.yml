@@ -10,17 +10,6 @@ services:
       default:
         aliases:
           - icat.example.org
-  irods-catalog-consumer-resource1:
-    build:
-        context: topology
-        dockerfile: Dockerfile.consumer
-    hostname: resource1.example.org
-    networks:
-      default:
-        aliases:
-          - resource1.example.org
-    depends_on:
-      - irods-catalog-provider
   irods-automated-ingest:
     build:
         context: ingest
