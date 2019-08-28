@@ -13,6 +13,9 @@ echo Postgres took approximately $counter seconds to fully start ...
 # Set up iRODS.
 python /var/lib/irods/scripts/setup_irods.py < /var/lib/irods/packaging/localhost_setup_postgres.input
 
+cd /var/lib/irods/scripts
+python configure_audit_plugin.py
+
 # Keep container running if the test fails.
 tail -f /dev/null
 # Is this better? sleep 2147483647d

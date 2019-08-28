@@ -21,3 +21,18 @@ services:
           - irods-ingest.example.org
     depends_on:
       - irods-catalog-provider
+  irods-audit-elk-stack:
+    image: irods/irods_audit_elk_stack:latest
+    hostname: irods-audit-elastic-stack.example.org
+    ports:
+      - "8080:15672"
+      - "5672:5672"
+      - "80:5601"
+      - "9200:9200"
+    networks:
+      default:
+        aliases:
+          - irods-audit-elastic-stack.example.org
+    volumes:
+      - "./audit/entrypoint.sh:/audit/entrypoint.sh:ro"
+    entrypoint: /audit/entrypoint.sh
