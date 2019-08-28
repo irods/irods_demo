@@ -3,7 +3,7 @@ version: '3'
 services:
   irods-catalog-provider:
     build:
-        context: topology
+        context: irods
         dockerfile: Dockerfile.provider
     hostname: icat.example.org
     networks:
