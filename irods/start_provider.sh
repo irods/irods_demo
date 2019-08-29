@@ -10,6 +10,9 @@ do
 done
 echo Postgres took approximately $counter seconds to fully start ...
 
+# Set provider to refuse SSL connections, i.e. CS_NEG_REFUSE
+sed -i 's/CS_NEG_DONT_CARE/CS_NEG_REFUSE/' /var/lib/irods/packaging/core.re.template
+
 # Set up iRODS.
 python /var/lib/irods/scripts/setup_irods.py < /var/lib/irods/packaging/localhost_setup_postgres.input
 
