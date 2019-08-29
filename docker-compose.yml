@@ -39,6 +39,25 @@ services:
     depends_on:
       - irods-catalog-provider
 
+  #irods-nfsrods:
+    ##image: irods/nfsrods
+    #build:
+        #context: irods_client_nfsrods
+        #dockerfile: Dockerfile
+    #hostname: irods-nfsrods.example.org
+    #networks:
+      #default:
+        #aliases:
+          #- irods-nfsrods.example.org
+    #depends_on:
+      #- irods-catalog-provider
+    #ports:
+      #- "2049:2049"
+    #volumes:
+      #- "./nfsrods/nfsrods_config:/nfsrods_config:ro"
+      #- "/etc/shadow:/etc/shadow:ro"
+      #- "/etc/passwd:/etc/passwd:ro"
+
   #irods-metalnx:
     #image: irods/metalnx
     #hostname: irods-metalnx.example.org
