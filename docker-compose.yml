@@ -15,9 +15,9 @@ services:
     image: irods/irods_audit_elk_stack:latest
     hostname: irods-audit-elastic-stack.example.org
     ports:
-      - "9999:15672"
+      - "15672:15672"
       - "5672:5672"
-      - "80:5601"
+      - "5601:5601"
       - "9200:9200"
     networks:
       default:
@@ -101,3 +101,14 @@ services:
       default:
         aliases:
           - irods-metalnx-db.example.org
+  irods-davrods:
+    build:
+        context: davrods
+        dockerfile: Dockerfile
+    hostname: irods-davrods.example.org
+    ports:
+      - "80:80"
+    networks:
+      default:
+        aliases:
+          - irods-davrods.example.org
