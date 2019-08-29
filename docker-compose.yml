@@ -15,7 +15,7 @@ services:
     image: irods/irods_audit_elk_stack:latest
     hostname: irods-audit-elastic-stack.example.org
     ports:
-      - "8080:15672"
+      - "9999:15672"
       - "5672:5672"
       - "80:5601"
       - "9200:9200"
@@ -74,31 +74,30 @@ services:
       - "/etc/shadow:/etc/shadow:ro"
       - "/etc/passwd:/etc/passwd:ro"
 
-  #irods-metalnx:
+  irods-metalnx:
     #image: irods/metalnx
-    #hostname: irods-metalnx.example.org
-    #ports:
-      #- "8080:8080"
-    #volumes:
-      #- "./metalnx/mylocal-irods-ext:/etc/irods-ext"
-    #networks:
-      #default:
-        #aliases:
-          #- irods-metalnx.example.org
-    #depends_on:
-      #- irods-metalnx-db
-  # TODO: Need DB to be running and prepared for metalnx...
-  # Do the metalnx DB commands need to run from metalnx container?
-  #irods-metalnx-db:
-    #build:
-        #context: metalnx-db
-        #dockerfile: Dockerfile
-    #hostname: irods-metalnx-db.example.org
-    #ports:
-      #- "5432:5432"
-    #volumes:
-      #- "./metalnx/db_commands.txt:/db_commands.txt"
-    #networks:
-      #default:
-        #aliases:
-          #- irods-metalnx-db.example.org
+    build:
+        context: metalnx
+        dockerfile: Dockerfile
+    hostname: irods-metalnx.example.org
+    ports:
+      - "8080:8080"
+    volumes:
+      - "./metalnx/mylocal-irods-ext:/etc/irods-ext"
+    networks:
+      default:
+        aliases:
+          - irods-metalnx.example.org
+    depends_on:
+      - irods-metalnx-db
+  irods-metalnx-db:
+    build:
+        context: metalnx-db
+        dockerfile: Dockerfile
+    hostname: irods-metalnx-db.example.org
+    ports:
+      - "5432:5432"
+    networks:
+      default:
+        aliases:
+          - irods-metalnx-db.example.org
