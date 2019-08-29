@@ -1,0 +1,20 @@
+{
+    "nfs_server": {
+        "port": 2049,
+        "irods_mount_point": "/tempZone",
+        "user_information_refresh_time_in_minutes": 60,
+        "file_information_refresh_time_in_milliseconds": 1000
+    },
+
+    "irods_client": {
+        "host": "icat.example.org",
+        "port": 1247,
+        "zone": "tempZone",
+        "default_resource": "demoResc"
+    },
+
+    "irods_proxy_admin_account": {
+        "username": "rods",
+        "password": "rods"
+    }
+}
