@@ -15,9 +15,10 @@ RUN service postgresql start && su - postgres -c 'psql -f /db_commands.txt'
 # Install iRODS
 RUN wget -qO - https://packages.irods.org/irods-signing-key.asc | apt-key add -; \
     echo "deb [arch=amd64] https://packages.irods.org/apt/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/renci-irods.list; \
-    apt-get update && \
-    apt-get install -y irods-runtime irods-icommands irods-server irods-database-plugin-postgres irods-rule-engine-plugin-audit-amqp
+    apt-get update
+RUN apt-get install -y irods-runtime irods-icommands irods-server irods-database-plugin-postgres irods-rule-engine-plugin-audit-amqp irods-rule-engine-plugin-update-collection-mtime
 ADD configure_audit_plugin.py /var/lib/irods/scripts/
+ADD configure_update_collection_mtime_plugin.py /var/lib/irods/scripts/
 
 EXPOSE 1248 1247
 
