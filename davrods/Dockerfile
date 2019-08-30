@@ -16,4 +16,4 @@ RUN a2enmod dav && a2enmod davrods && a2ensite davrods-vhost && a2dissite 000-de
 
 RUN curl -fSL https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64-v0.6.1.tar.gz -o dockerize-linux-amd64-v0.6.1.tar.gz \
     && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.1.tar.gz
-CMD dockerize -wait tcp://icat.example.org:1247 -timeout 250s tail -f /dev/null
+CMD dockerize -wait tcp://icat.example.org:1247 -timeout 250s service apache2 restart && tail -f /dev/null

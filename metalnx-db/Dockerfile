@@ -6,6 +6,7 @@ RUN apt-get update && \
 
 RUN sed -i "s/#listen_addresses.*/listen_addresses = '\*'/" /etc/postgresql/*/main/postgresql.conf
 RUN sed -i "/IPv4 local connections.*/a host    all             all             192.0.0.1/8             md5" /etc/postgresql/*/main/pg_hba.conf
+RUN sed -i "/IPv4 local connections.*/a host    all             all             172.0.0.1/8             md5" /etc/postgresql/*/main/pg_hba.conf
 
 # Setup catalog database
 ADD db_commands.txt /
