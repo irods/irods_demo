@@ -15,7 +15,7 @@ ENV PATH=/opt/irods-externals/cmake3.11.4-0/bin:$PATH
 ENV NFSRODS_CONFIG_HOME=/nfsrods_config
 
 ARG _github_account="irods"
-ARG _sha="0.8.0"
+ARG _sha="0.9.0"
 
 RUN git clone https://github.com/${_github_account}/irods_client_nfsrods
 
@@ -23,11 +23,6 @@ RUN cd irods_client_nfsrods && \
     git checkout ${_sha} && \
     mvn clean install -Dmaven.test.skip=true
 
-RUN mkdir _package && cd _package && \
-    cmake -GNinja /irods_client_nfsrods && \
-    cpack -G "DEB" && \
-    dpkg -i irods*.deb
-
 RUN curl -fSL https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64-v0.6.1.tar.gz -o dockerize-linux-amd64-v0.6.1.tar.gz \
     && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.1.tar.gz
-CMD dockerize -wait tcp://icat.example.org:1247 -timeout 250s echo "NFSRODS found iRODS!" && java -jar /opt/irods-clients/nfsrods/nfsrods-1.0.0-SNAPSHOT-jar-with-dependencies.jar
+CMD dockerize -wait tcp://icat.example.org:1247 -timeout 250s echo "NFSRODS found iRODS!" && java -Dlog4j2.contextSelector=org.apache.logging.log4j.core.async.AsyncLoggerContextSelector -jar /irods_client_nfsrods/irods-vfs-impl/target/nfsrods-1.0.0-SNAPSHOT-jar-with-dependencies.jar
