@@ -15,7 +15,7 @@ ENV PATH=/opt/irods-externals/cmake3.11.4-0/bin:$PATH
 ENV NFSRODS_CONFIG_HOME=/nfsrods_config
 
 ARG _github_account="irods"
-ARG _sha="0.9.0"
+ARG _sha="0.9.1"
 
 RUN git clone https://github.com/${_github_account}/irods_client_nfsrods
 
