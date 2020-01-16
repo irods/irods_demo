@@ -25,4 +25,4 @@ RUN cd irods_client_nfsrods && \
 
 RUN curl -fSL https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64-v0.6.1.tar.gz -o dockerize-linux-amd64-v0.6.1.tar.gz \
     && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.1.tar.gz
-CMD dockerize -wait tcp://icat.example.org:1247 -timeout 250s echo "NFSRODS found iRODS!" && java -Dlog4j2.contextSelector=org.apache.logging.log4j.core.async.AsyncLoggerContextSelector -jar /irods_client_nfsrods/irods-vfs-impl/target/nfsrods-1.0.0-SNAPSHOT-jar-with-dependencies.jar
+CMD dockerize -wait tcp://icat.example.org:1247 -timeout 250s echo "NFSRODS found iRODS!" && java -Dlog4j2.contextSelector=org.apache.logging.log4j.core.async.AsyncLoggerContextSelector -jar /irods_client_nfsrods/irods-vfs-impl/target/nfsrods-0.9.3-jar-with-dependencies.jar
