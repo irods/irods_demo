@@ -19,6 +19,8 @@ python /var/lib/irods/scripts/setup_irods.py < /var/lib/irods/packaging/localhos
 cd /var/lib/irods/scripts
 python configure_audit_plugin.py
 python configure_update_collection_mtime_plugin.py
+python configure_unified_storage_tiering_plugin.py
+python configure_users.py
 
 # Keep container running if the test fails.
 tail -f /dev/null
