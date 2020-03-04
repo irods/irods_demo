@@ -20,7 +20,8 @@ ADD irods_environment.json /ingest
 ADD landing_zone_put_with_resc_name_image_metadata.py /ingest
 
 # Create virtualenv for use in running ingest tool and install ingest
-RUN pip install virtualenv && \
+RUN pip install --upgrade pip && \
+    pip install virtualenv && \
     virtualenv -p python3 rodssync && \
     . /rodssync/bin/activate && \
     pip install irods_capability_automated_ingest exifread
