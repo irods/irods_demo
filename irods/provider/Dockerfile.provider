@@ -12,7 +12,7 @@ RUN apt-get update && \
     pip install xmlrunner
 
 # Setup catalog database
-ADD db_commands.txt /
+COPY db_commands.txt /
 RUN service postgresql start && su - postgres -c 'psql -f /db_commands.txt'
 
 RUN wget -qO - https://packages.irods.org/irods-signing-key.asc | apt-key add -; \
@@ -23,6 +23,6 @@ RUN wget -qO - https://packages.irods.org/irods-signing-key.asc | apt-key add -;
 EXPOSE 1247 1248
 
 # Set command to execute when launching the container.
-ADD start_provider.sh /
+COPY start_provider.sh /
 RUN chmod u+x /start_provider.sh
 ENTRYPOINT ["./start_provider.sh"]

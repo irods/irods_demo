@@ -14,10 +14,10 @@ RUN wget -qO - https://packages.irods.org/irods-signing-key.asc | apt-key add -;
     apt-get install -y irods-icommands
 RUN mkdir /ingest
 # Add environment file for client user
-ADD irods_environment.json /ingest
+COPY irods_environment.json /ingest
 
 # Add ingest event handler
-ADD landing_zone_put_with_resc_name_image_metadata.py /ingest
+COPY landing_zone_put_with_resc_name_image_metadata.py /ingest
 
 # Create virtualenv for use in running ingest tool and install ingest
 RUN pip install --upgrade pip && \
@@ -27,7 +27,7 @@ RUN pip install --upgrade pip && \
     pip install irods_capability_automated_ingest exifread
 
 # Set command to execute when launching the container.
-ADD prepare_for_ingest.sh /ingest
+COPY prepare_for_ingest.sh /ingest
 RUN chmod u+x /ingest/prepare_for_ingest.sh
 #ENTRYPOINT ["./prepare_for_ingest.sh"]
 RUN curl -fSL https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64-v0.6.1.tar.gz -o dockerize-linux-amd64-v0.6.1.tar.gz \
