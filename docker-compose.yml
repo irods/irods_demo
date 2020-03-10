@@ -67,7 +67,6 @@ services:
       - "2049:2049"
     volumes:
       - "./nfsrods/nfsrods_config:/nfsrods_config:ro"
-      - "/etc/shadow:/etc/shadow:ro"
       - "/etc/passwd:/etc/passwd:ro"
 
   irods-metalnx:
