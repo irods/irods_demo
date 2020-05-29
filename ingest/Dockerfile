@@ -4,7 +4,8 @@
 FROM ubuntu:16.04
 
 # Install automated ingest and redis-server
-RUN apt-get update && \
+RUN DEBIAN_FRONTEND=noninteractive && \
+    apt-get update && \
     apt-get install -y sudo wget lsb-release apt-transport-https python-pip redis-server curl
 
 # Install icommands to create environment file
