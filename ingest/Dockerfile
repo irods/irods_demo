@@ -1,12 +1,12 @@
 #
 # iRODS Provider Image.
 #
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 # Install automated ingest and redis-server
 RUN DEBIAN_FRONTEND=noninteractive && \
     apt-get update && \
-    apt-get install -y sudo wget lsb-release apt-transport-https python-pip redis-server curl
+    apt-get install -y sudo wget lsb-release apt-transport-https apt-utils python3-pip redis-server curl python3
 
 # Install icommands to create environment file
 RUN wget -qO - https://packages.irods.org/irods-signing-key.asc | apt-key add -; \
@@ -21,11 +21,11 @@ COPY irods_environment.json /ingest
 COPY landing_zone_put_with_resc_name_image_metadata.py /ingest
 
 # Create virtualenv for use in running ingest tool and install ingest
-RUN pip install --upgrade pip && \
-    pip install virtualenv && \
+RUN pip3 install --upgrade pip && \
+    pip3 install virtualenv && \
     virtualenv -p python3 rodssync && \
     . /rodssync/bin/activate && \
-    pip install irods_capability_automated_ingest exifread
+    pip3 install irods_capability_automated_ingest exifread
 
 # Set command to execute when launching the container.
 COPY prepare_for_ingest.sh /ingest

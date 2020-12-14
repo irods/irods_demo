@@ -1,6 +1,6 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
-RUN apt-get update && apt-get install -y wget curl apache2 sudo lsb-release apt-transport-https
+RUN apt-get update && apt-get install -y wget curl apache2 sudo lsb-release apt-transport-https gnupg
 
 RUN wget -qO - https://packages.irods.org/irods-signing-key.asc | sudo apt-key add - && \
     echo "deb [arch=amd64] https://packages.irods.org/apt/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/renci-irods.list && \
