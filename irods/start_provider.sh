@@ -23,7 +23,10 @@ python configure_update_collection_mtime_plugin.py
 python configure_unified_storage_tiering_plugin.py
 python configure_users.py
 pkill irodsServer
+pkill irodsReServer
 fi
+
+sleep 10 #give it a bit for the procs to finish
 sudo -iu irods bash -c "cd /usr/sbin; ./irodsServer -u"
 
 # Keep container running if the test fails.
