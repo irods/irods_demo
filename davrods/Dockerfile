@@ -10,7 +10,7 @@ RUN wget -O /davrods.deb https://github.com/UtrechtUniversity/davrods/releases/d
 
 RUN sed -i "s/^#//g" /etc/apache2/sites-available/davrods-vhost.conf
 RUN sed -i "s/ServerName.*/ServerName irods-davrods.example.org/" /etc/apache2/sites-available/davrods-vhost.conf
-RUN sed -i "s/#DavRodsServer.*/DavRodsServer icat.example.org 1247/" /etc/apache2/sites-available/davrods-vhost.conf
+RUN sed -i "s/#DavrodsServer.*/DavrodsServer icat.example.org 1247/" /etc/apache2/sites-available/davrods-vhost.conf
 
 RUN a2enmod dav && a2enmod davrods && a2ensite davrods-vhost && a2dissite 000-default && service apache2 restart
 
