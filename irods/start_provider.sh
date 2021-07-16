@@ -25,8 +25,22 @@ python configure_users.py
 pkill irodsServer
 fi
 
-sleep 10 #give it a bit for the procs to finish
-sudo -iu irods bash -c "cd /usr/sbin; ./irodsServer -u"
+#give it a bit for the procs to finish
+running="True"
+
+while [ $running = "True" ]
+do
+response=$(echo -e "\x00\x00\x00\x33<MsgHeader_PI><type>HEARTBEAT</type></MsgHeader_PI>" | nc localhost 1247)
+if [ "${response}" == "HEARTBEAT" ]; then
+    running="True"
+    echo "iRODS responding to Heartbeat"
+else
+    running="False"
+    echo "Restarting iRODS"
+    sudo -iu irods bash -c "cd /usr/sbin; ./irodsServer -u"
+fi
+sleep 1
+done
 
 # Keep container running if the test fails.
 #tail -f /dev/null
