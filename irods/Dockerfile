@@ -18,7 +18,7 @@ RUN wget -qO - https://packages.irods.org/irods-signing-key.asc | apt-key add -;
     echo "deb [arch=amd64] https://packages.irods.org/apt/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/renci-irods.list; \
     apt-get update
 RUN DEBIAN_FRONTEND=noninteractive \
-    apt-get install -y irods-runtime irods-icommands irods-server irods-database-plugin-postgres irods-rule-engine-plugin-audit-amqp irods-rule-engine-plugin-update-collection-mtime irods-rule-engine-plugin-unified-storage-tiering
+    apt-get install -y irods-runtime=4.2.8 irods-icommands=4.2.8 irods-server=4.2.8 irods-database-plugin-postgres=4.2.8 irods-rule-engine-plugin-audit-amqp=4.2.8.0 irods-rule-engine-plugin-update-collection-mtime=4.2.8.0 irods-rule-engine-plugin-unified-storage-tiering=4.2.8.0
 COPY configure_audit_plugin.py /var/lib/irods/scripts/
 COPY configure_update_collection_mtime_plugin.py /var/lib/irods/scripts/
 COPY configure_unified_storage_tiering_plugin.py /var/lib/irods/scripts/
