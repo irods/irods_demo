@@ -1,0 +1,78 @@
+version: '3'
+
+services:
+    irods-catalog:
+        build:
+            context: irods_catalog
+        # 5432 is exposed by default and can conflict with other postgres containers.
+        # When the metalnx-db service is no longer needed, this stanza can be removed.
+        ports:
+            - "5430:5432"
+        environment:
+            - POSTGRES_PASSWORD=testpassword
+
+    irods-catalog-provider:
+        build:
+            context: irods_catalog_provider
+        depends_on:
+            - irods-catalog
+
+    irods-client-icommands:
+        build:
+            context: irods_client_icommands
+        depends_on:
+            - irods-catalog-provider
+
+    irods-client-rest-cpp:
+        build:
+            context: irods_client_rest_cpp
+            dockerfile: irods_client_rest_cpp.Dockerfile
+        volumes:
+            - ./irods_client_rest_cpp/irods_client_rest_cpp.json:/etc/irods_client_rest_cpp/irods_client_rest_cpp.json:ro
+        depends_on:
+            - irods-catalog-provider
+
+    nginx-reverse-proxy:
+        build:
+            context: irods_client_rest_cpp
+            dockerfile: nginx.Dockerfile
+        ports:
+            - "80:80"
+        depends_on:
+            - irods-client-rest-cpp
+
+    irods-client-zmt:
+        build:
+            context: irods_client_zone_management_tool
+        environment:
+            - REACT_APP_REST_API_URL=http://localhost/irods-rest/0.9.2
+            - REACT_APP_APPBAR_LOGO=iRODS-logo.jpg
+            - REACT_APP_LOGIN_LOGO=iRODS-logo-1.png
+            - REACT_APP_BRANDING_NAME=Zone Management Tool
+            - REACT_APP_PRIMARY_COLOR=#04bdaf
+        volumes:
+            - ./irods_client_zone_management_tool:/usr/src/app
+            - /usr/src/app/node_modules
+        ports:
+            - "9000:3000"
+        depends_on:
+            - nginx-reverse-proxy
+
+    metalnx-db:
+        build:
+            context: metalnx-db
+        environment:
+            - POSTGRES_PASSWORD=password
+
+    metalnx:
+        #image: irods/metalnx:2.6.0
+        build:
+            context: metalnx
+        restart: always
+        ports:
+            - "8080:8080"
+        volumes:
+            - "./metalnx/mylocal-irods-ext:/etc/irods-ext"
+        depends_on:
+            - metalnx-db
+            - irods-catalog-provider
