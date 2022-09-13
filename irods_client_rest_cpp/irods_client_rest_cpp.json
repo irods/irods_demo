@@ -1,0 +1,86 @@
+{
+    "irods_client_environment": {
+        "zone": "tempZone",
+        "host": "irods_demo_irods-catalog-provider_1",
+        "port": 1247,
+        "ssl_negotiation_policy": "CS_NEG_REFUSE",
+        "rodsadmin_username": "rods",
+        "rodsadmin_password": "rods",
+        "default_resource": "demoResc"
+    },
+    "rest_api": {
+        "jwt_signing_key": "TEMPORARY_SIGNING_KEY",
+        "irods_rest_cpp_access_server": {
+            "port": 8080,
+            "threads": 4,
+            "maximum_idle_timeout_in_seconds": 10,
+            "log_level": "info"
+        },
+        "irods_rest_cpp_admin_server": {
+            "port": 8087,
+            "threads": 4,
+            "maximum_idle_timeout_in_seconds": 10,
+            "log_level": "info"
+        },
+        "irods_rest_cpp_auth_server": {
+            "port": 8081,
+            "threads": 4,
+            "maximum_idle_timeout_in_seconds": 10,
+            "log_level": "info"
+        },
+        "irods_rest_cpp_get_configuration_server": {
+            "port": 8088,
+            "threads": 4,
+            "maximum_idle_timeout_in_seconds": 10,
+            "log_level": "info"
+        },
+        "irods_rest_cpp_put_configuration_server": {
+            "port": 8089,
+            "threads": 4,
+            "maximum_idle_timeout_in_seconds": 10,
+            "log_level": "info"
+        },
+        "irods_rest_cpp_list_server": {
+            "port": 8082,
+            "threads": 4,
+            "maximum_idle_timeout_in_seconds": 10,
+            "log_level": "info"
+        },
+        "irods_rest_cpp_query_server": {
+            "port": 8083,
+            "threads": 4,
+            "maximum_idle_timeout_in_seconds": 10,
+            "log_level": "info"
+        },
+        "irods_rest_cpp_stream_get_server": {
+            "port": 8084,
+            "threads": 4,
+            "maximum_idle_timeout_in_seconds": 10,
+            "log_level": "info"
+        },
+        "irods_rest_cpp_stream_put_server": {
+            "port": 8085,
+            "threads": 4,
+            "maximum_idle_timeout_in_seconds": 10,
+            "log_level": "info"
+        },
+        "irods_rest_cpp_zonereport_server": {
+            "port": 8086,
+            "threads": 4,
+            "maximum_idle_timeout_in_seconds": 10,
+            "log_level": "info"
+        },
+        "irods_rest_cpp_logicalpath_server": {
+            "port": 8090,
+            "threads": 4,
+            "maximum_idle_timeout_in_seconds": 10,
+            "log_level": "info"
+        },
+        "irods_rest_cpp_metadata_server": {
+            "port": 8091,
+            "threads": 4,
+            "maximum_idle_timeout_in_seconds": 10,
+            "log_level": "info"
+        }
+    }
+}

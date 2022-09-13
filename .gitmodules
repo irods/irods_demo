@@ -1,0 +1,3 @@
+[submodule "irods_client_zone_management_tool"]
+	path = irods_client_zone_management_tool
+	url = https://github.com/irods/irods_client_zone_management_tool
