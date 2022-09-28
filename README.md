@@ -42,3 +42,9 @@ $ docker-compose up irods_client_zmt
 ```
 
 For more information about Compose CLI options, see Docker Compose documentation: https://docs.docker.com/engine/reference/commandline/compose
+
+## Notes for services
+
+### `irods-client-zmt` / Zone Management Tool / ZMT
+
+The ZMT service assumes that containers are running on the same host as the browser. If this is not the case, the value of `REACT_APP_REST_API_URL` should be changed to an address which correctly maps to the `nginx-reverse-proxy` service and that is reachable by both the ZMT service and the host running the browser.
