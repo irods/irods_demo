@@ -65,7 +65,6 @@ services:
             - POSTGRES_PASSWORD=password
 
     metalnx:
-        #image: irods/metalnx:2.6.0
         build:
             context: metalnx
         restart: always
@@ -75,4 +74,15 @@ services:
             - "./metalnx/mylocal-irods-ext:/etc/irods-ext"
         depends_on:
             - metalnx-db
+            - irods-catalog-provider
+
+    irods-client-nfsrods:
+        build:
+            context: irods_client_nfsrods
+        ports:
+            - "2050:2049"
+        volumes:
+            - "./irods_client_nfsrods/nfsrods_config:/nfsrods_config:ro"
+            - "/etc/passwd:/etc/passwd:ro"
+        depends_on:
             - irods-catalog-provider
