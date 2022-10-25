@@ -17,7 +17,7 @@ fi
 
 echo "waiting for iRODS to be ready"
 
-irods_catalog_provider_hostname=irods_demo_irods-catalog-provider_1
+irods_catalog_provider_hostname=irods-catalog-provider
 until nc -z ${irods_catalog_provider_hostname} 1247
 do
     sleep 1
