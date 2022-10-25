@@ -1,6 +1,6 @@
 #! /bin/bash -e
 
-catalog_db_hostname=irods_demo_irods-catalog_1
+catalog_db_hostname=irods-catalog
 
 echo "Waiting for iRODS catalog database to be ready"
 

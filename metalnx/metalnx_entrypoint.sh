@@ -2,7 +2,7 @@
 
 echo "Waiting for database to be ready"
 
-metalnx_db_hostname=irods_demo_metalnx-db_1
+metalnx_db_hostname=metalnx-db
 until pg_isready -h ${metalnx_db_hostname} -d IRODS-EXT -U metalnx -q
 do
     sleep 1
@@ -10,7 +10,7 @@ done
 
 echo "database is ready, waiting for iRODS to be ready"
 
-irods_catalog_provider_hostname=irods_demo_irods-catalog-provider_1
+irods_catalog_provider_hostname=irods-catalog-provider
 until nc -z ${irods_catalog_provider_hostname} 1247
 do
     sleep 1

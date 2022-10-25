@@ -1,7 +1,7 @@
 {
     "irods_client_environment": {
         "zone": "tempZone",
-        "host": "irods_demo_irods-catalog-provider_1",
+        "host": "irods-catalog-provider",
         "port": 1247,
         "ssl_negotiation_policy": "CS_NEG_REFUSE",
         "rodsadmin_username": "rods",
