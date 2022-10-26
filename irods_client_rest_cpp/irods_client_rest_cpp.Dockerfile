@@ -19,7 +19,7 @@ RUN apt-get update && \
 RUN wget -qO - https://packages.irods.org/irods-signing-key.asc | apt-key add - && \
     echo "deb [arch=amd64] https://packages.irods.org/apt/ $(lsb_release -sc) main" | tee /etc/apt/sources.list.d/renci-irods.list
 
-ARG version=0.9.2
+ARG version=0.9.3
 ARG package_version_suffix=-0~focal
 ARG package_version=${version}${package_version_suffix}
 
