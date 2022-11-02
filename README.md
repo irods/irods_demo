@@ -47,7 +47,12 @@ For more information about Compose CLI options, see Docker Compose documentation
 
 ### `irods-client-zmt` / Zone Management Tool / ZMT
 
-The ZMT service assumes that containers are running on the same host as the browser. If this is not the case, the value of `REACT_APP_REST_API_URL` should be changed to an address which correctly maps to the `nginx-reverse-proxy` service and that is reachable by both the ZMT service and the host running the browser.
+The ZMT service assumes that containers are running on the same host as the browser. If this is not the case (launching irods_demo via ssh, etc.), the value of `REACT_APP_REST_API_URL` should be changed to an address which correctly maps to the `nginx-reverse-proxy` service and that is reachable by both the ZMT service and the host running the browser.
+
+```diff
+-            - REACT_APP_REST_API_URL=http://localhost/irods-rest/x.x.x
++            - REACT_APP_REST_API_URL=http://<public-hostname-or-ip>/irods-rest/x.x.x
+```
 
 ### `irods-client-nfsrods` / NFSRODS
 
