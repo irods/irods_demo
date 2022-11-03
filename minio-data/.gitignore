@@ -1,0 +1,4 @@
+# Ignore MinIO data
+*
+# Don't ignore .gitignore
+!.gitignore
