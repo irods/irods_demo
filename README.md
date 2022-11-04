@@ -1,5 +1,9 @@
 # irods_demo
 
+This repository provides a docker-compose project designed to easily stand up a **DEMONSTRATION** of the iRODS server and a few of its clients.  It is intended for education and exploration.
+
+**DO NOT USE IN PRODUCTION.**
+
 ## Requirements
 
 - docker
