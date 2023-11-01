@@ -24,7 +24,7 @@ ARG package_version_suffix=-0~focal
 ARG package_version=${version}${package_version_suffix}
 
 RUN apt-get update && \
-    apt-get install -y irods-client-rest-cpp=${package_version} && \
+    apt-get install -y irods-client-rest-cpp=${package_version} irods-runtime=4.3.0-1~focal && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/*
 

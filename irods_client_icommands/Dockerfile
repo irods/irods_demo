@@ -21,6 +21,7 @@ ARG icommands_package_version=${icommands_version}${icommands_package_version_su
 RUN apt-get update && \
     apt-get install -y \
         irods-icommands=${icommands_package_version} \
+        irods-runtime=${icommands_package_version} \
         netcat \
     && \
     apt-get clean && \
