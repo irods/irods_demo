@@ -14,6 +14,13 @@ services:
     irods-catalog-provider:
         build:
             context: irods_catalog_provider
+        healthcheck:
+            test: ["CMD", "su", "-", "irods", "-c", "ils || exit 1"]
+            interval: 10s
+            timeout: 10s
+            retries: 3
+            start_period: 20s
+            start_interval: 2s
         depends_on:
             - irods-catalog
 
@@ -22,6 +29,17 @@ services:
             context: irods_client_icommands
         depends_on:
             - irods-catalog-provider
+
+    irods-client-http-api:
+        image: irods/irods_http_api:latest
+        volumes:
+            - ./irods_client_http_api/config.json:/config.json:ro
+        ports:
+            - "9001:9000"
+        restart: on-failure
+        depends_on:
+            irods-catalog-provider:
+                condition: service_healthy
 
     irods-client-rest-cpp:
         build:
