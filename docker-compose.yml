@@ -28,7 +28,8 @@ services:
         build:
             context: irods_client_icommands
         depends_on:
-            - irods-catalog-provider
+            irods-catalog-provider:
+                condition: service_healthy
 
     irods-client-http-api:
         image: irods/irods_http_api:latest
@@ -48,7 +49,8 @@ services:
         volumes:
             - ./irods_client_rest_cpp/irods_client_rest_cpp.json:/etc/irods_client_rest_cpp/irods_client_rest_cpp.json:ro
         depends_on:
-            - irods-catalog-provider
+            irods-catalog-provider:
+                condition: service_healthy
 
     nginx-reverse-proxy:
         build:
@@ -91,8 +93,10 @@ services:
         volumes:
             - "./metalnx/mylocal-irods-ext:/etc/irods-ext"
         depends_on:
-            - metalnx-db
-            - irods-catalog-provider
+            metalnx-db:
+                condition: service_started
+            irods-catalog-provider:
+                condition: service_healthy
 
     irods-client-nfsrods:
         build:
@@ -103,7 +107,8 @@ services:
             - "./irods_client_nfsrods/nfsrods_config:/nfsrods_config:ro"
             - "/etc/passwd:/etc/passwd:ro"
         depends_on:
-            - irods-catalog-provider
+            irods-catalog-provider:
+                condition: service_healthy
 
     minio:
         image: minio/minio:RELEASE.2022-10-29T06-21-33Z
