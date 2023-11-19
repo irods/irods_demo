@@ -25,12 +25,12 @@ $ git submodule update --init
 
 To run all services:
 ```bash
-$ docker-compose up
+$ docker compose up
 ```
 
 To run an individual service (and all services on which it depends):
 ```bash
-$ docker-compose up <service-name>
+$ docker compose up <service-name>
 ```
 
 For example, this command will spawn containers for the following services:
@@ -42,7 +42,7 @@ For example, this command will spawn containers for the following services:
 5. `irods-client-zmt`
 
 ```bash
-$ docker-compose up irods_client_zmt
+$ docker-compose up irods-client-zmt
 ```
 
 For more information about Compose CLI options, see Docker Compose documentation: https://docs.docker.com/engine/reference/commandline/compose
@@ -73,5 +73,5 @@ $ sudo umount ./irods_client_nfsrods/nfs_mount
 
 The NFSRODS service maps the `/etc/passwd` file on the host machine to the `/etc/passwd` file in the container providing the service. The user(s) accessing the mountpoint will need to exist as iRODS users as well in order to be able to interact with the mountpoint. This can be done by running the following command on the host machine for each `username` which needs to be mapped:
 ```bash
-$ docker exec irods_demo_irods-client-icommands_1 iadmin mkuser <username> rodsuser
+$ docker exec irods_demo-irods-client-icommands-1 iadmin mkuser <username> rodsuser
 ```
