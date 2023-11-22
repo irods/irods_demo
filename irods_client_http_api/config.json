@@ -1,0 +1,53 @@
+{
+    "http_server": {
+        "host": "0.0.0.0",
+        "port": 9000,
+
+        "log_level": "trace",
+
+        "authentication": {
+            "eviction_check_interval_in_seconds": 60,
+
+            "basic": {
+                "timeout_in_seconds": 3600
+            }
+        },
+
+        "requests": {
+            "threads": 3,
+            "max_rbuffer_size_in_bytes": 8388608,
+            "timeout_in_seconds": 30
+        },
+
+        "background_io": {
+            "threads": 6
+        }
+    },
+
+    "irods_client": {
+        "host": "irods-catalog-provider",
+        "port": 1247,
+        "zone": "tempZone",
+
+        "enable_4_2_compatibility": false,
+
+        "proxy_admin_account": {
+            "username": "rods",
+            "password": "rods"
+        },
+
+        "connection_pool": {
+            "size": 6,
+            "refresh_timeout_in_seconds": 600,
+            "max_retrievals_before_refresh": 16,
+            "refresh_when_resource_changes_detected": true
+        },
+
+        "max_number_of_parallel_write_streams": 3,
+
+        "max_number_of_bytes_per_read_operation": 8192,
+        "buffer_size_in_bytes_for_write_operations": 8192,
+
+        "max_number_of_rows_per_catalog_query": 15
+    }
+}
