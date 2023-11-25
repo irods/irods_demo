@@ -7,7 +7,7 @@ This repository provides a docker-compose project designed to easily stand up a 
 ## Requirements
 
 - docker
-- docker-compose
+- docker compose
 
 A minimal configuration will have:
 
