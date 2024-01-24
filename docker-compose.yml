@@ -14,6 +14,7 @@ services:
     irods-catalog-provider:
         build:
             context: irods_catalog_provider
+        shm_size: 500mb
         healthcheck:
             test: ["CMD", "su", "-", "irods", "-c", "ils || exit 1"]
             interval: 10s
