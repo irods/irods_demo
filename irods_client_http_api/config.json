@@ -15,7 +15,7 @@
 
         "requests": {
             "threads": 3,
-            "max_rbuffer_size_in_bytes": 8388608,
+            "max_size_of_request_body_in_bytes": 8388608,
             "timeout_in_seconds": 30
         },
 
