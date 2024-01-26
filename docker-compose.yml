@@ -33,7 +33,7 @@ services:
                 condition: service_healthy
 
     irods-client-http-api:
-        image: irods/irods_http_api:latest
+        image: irods/irods_http_api:0.2.0
         volumes:
             - ./irods_client_http_api/config.json:/config.json:ro
         ports:
