@@ -42,7 +42,7 @@ For example, this command will spawn containers for the following services:
 5. `irods-client-zmt`
 
 ```bash
-$ docker-compose up irods-client-zmt
+$ docker compose up irods-client-zmt
 ```
 
 For more information about Compose CLI options, see Docker Compose documentation: https://docs.docker.com/engine/reference/commandline/compose
