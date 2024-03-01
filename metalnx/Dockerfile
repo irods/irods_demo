@@ -1,4 +1,4 @@
-FROM irods/metalnx:2.6.0
+FROM irods/metalnx:2.6.1
 
 RUN apt-get update && \
     apt-get install -y \
