@@ -4,6 +4,8 @@ This repository provides a docker-compose project designed to easily stand up a 
 
 **DO NOT USE IN PRODUCTION.**
 
+![irods_demo dependency graph](dependencies.png)
+
 ## Requirements
 
 - docker
