@@ -45,8 +45,7 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/*
 
-COPY setup-${irods_version}.input /
-RUN mv /setup-${irods_version}.input /irods_setup.input
+COPY unattended_install.json /
 
 WORKDIR /
 COPY entrypoint.sh .
