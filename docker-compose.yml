@@ -18,7 +18,7 @@ services:
             context: irods_catalog_provider
         shm_size: 500mb
         healthcheck:
-            test: ["CMD", "su", "-", "irods", "-c", "ils || exit 1"]
+            test: ["CMD", "su", "-", "irods", "-c", "./irodsctl status | grep Process"]
             interval: 10s
             timeout: 10s
             retries: 3
