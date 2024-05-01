@@ -11,12 +11,12 @@ done
 
 echo "iRODS catalog database is ready"
 
-setup_input_file=/irods_setup.input
-
-if [ -e "${setup_input_file}" ]; then
+unattended_install_file=/unattended_install.json
+if [ -e "${unattended_install_file}" ]; then
     echo "Running iRODS setup"
-    python3 /var/lib/irods/scripts/setup_irods.py < "${setup_input_file}"
-    rm /irods_setup.input
+    sed -i "s/THE_HOSTNAME/${HOSTNAME}/g" ${unattended_install_file}
+    python3 /var/lib/irods/scripts/setup_irods.py --json_configuration_file ${unattended_install_file}
+    rm ${unattended_install_file}
 fi
 
 echo "Starting server"
