@@ -1,0 +1,67 @@
+{
+    "s3_server": {
+        "host": "0.0.0.0",
+        "port": 9000,
+        "log_level": "info",
+        "plugins": {
+            "static_bucket_resolver": {
+                "name": "static_bucket_resolver",
+                "mappings": {
+                    "demo_bucket": "/tempZone/home/public"
+                }
+            },
+
+            "static_authentication_resolver": {
+                "name": "static_authentication_resolver",
+                "users": {
+                    "s3rods": {
+                        "username": "rods",
+                        "secret_key": "the_secret"
+                    }
+                }
+            }
+        },
+        "region": "us-east-1",
+        "multipart_upload_part_files_directory": "/tmp",
+        "authentication": {
+            "eviction_check_interval_in_seconds": 60,
+            "basic": {
+                "timeout_in_seconds": 3600
+            }
+        },
+        "requests": {
+            "threads": 3,
+            "max_size_of_request_body_in_bytes": 8388608,
+            "timeout_in_seconds": 30
+        },
+        "background_io": {
+            "threads": 6
+        }
+    },
+    "irods_client": {
+        "host": "irods-catalog-provider",
+        "port": 1247,
+        "zone": "tempZone",
+        "tls": {
+            "client_server_policy": "CS_NEG_REFUSE",
+            "ca_certificate_file": "<string>",
+            "certificate_chain_file": "<string>",
+            "dh_params_file": "<string>",
+            "verify_server": "cert"
+        },
+        "enable_4_2_compatibility": false,
+        "proxy_admin_account": {
+            "username": "rods",
+            "password": "rods"
+        },
+        "connection_pool": {
+            "size": 6,
+            "refresh_timeout_in_seconds": 600,
+            "max_retrievals_before_refresh": 16,
+            "refresh_when_resource_changes_detected": true
+        },
+        "resource": "demoResc",
+        "put_object_buffer_size_in_bytes": 8192,
+        "get_object_buffer_size_in_bytes": 8192
+    }
+}
