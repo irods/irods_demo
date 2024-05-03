@@ -14,7 +14,7 @@ RUN apt-get update && \
 RUN wget -qO - https://packages.irods.org/irods-signing-key.asc | apt-key add - && \
     echo "deb [arch=amd64] https://packages.irods.org/apt/ focal main" | tee /etc/apt/sources.list.d/renci-irods.list
 
-ARG icommands_version=4.3.1
+ARG icommands_version=4.3.2
 ARG icommands_package_version_suffix=-0~focal
 ARG icommands_package_version=${icommands_version}${icommands_package_version_suffix}
 
