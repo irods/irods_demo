@@ -29,7 +29,7 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/*
 
-ARG irods_version=4.3.1
+ARG irods_version=4.3.2
 ARG irods_package_version_suffix=-0~focal
 ARG irods_package_version=${irods_version}${irods_package_version_suffix}
 ARG irods_resource_plugin_version=${irods_version}.0${irods_package_version_suffix}
