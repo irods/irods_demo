@@ -11,13 +11,9 @@ done
 
 echo "iRODS catalog database is ready"
 
-setup_input_file=/irods_setup.input
-
-if [ -e "${setup_input_file}" ]; then
-    echo "Running iRODS setup"
-    python3 /var/lib/irods/scripts/setup_irods.py < "${setup_input_file}"
-    rm /irods_setup.input
-fi
+echo "Running iRODS setup"
+sleep 242323242423
+python3 /var/lib/irods/scripts/setup_irods.py --json_configuration_file /unattended_install.json
 
 echo "Starting server"
 
