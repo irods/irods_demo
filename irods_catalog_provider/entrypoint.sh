@@ -19,7 +19,19 @@ if [ -e "${setup_input_file}" ]; then
     rm /irods_setup.input
 fi
 
-echo "Starting server"
+echo "Starting rsyslog"
 
-cd /usr/sbin
-su irods -c 'bash -c "./irodsServer -u"'
+rsyslogd
+
+echo "Starting iRODS server"
+
+su - irods -c './irodsctl -v start'
+
+# Used by the healthcheck to determine when the server is ready to accept requests.
+touch /irods_ready.flag
+
+# To view the log files of the iRODS server, tail /var/log/irods/irods.log while
+# inside the container or by using "docker exec".
+
+# Keep the container alive by sleeping forever.
+while true; do sleep 2147483647d; done

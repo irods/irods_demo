@@ -1,5 +1,6 @@
 FROM ubuntu:20.04
 
+SHELL ["/bin/bash", "-c"]
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
@@ -28,6 +29,9 @@ RUN apt-get update && \
     && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/*
+
+COPY irods.rsyslog /etc/rsyslog.d/00-irods.conf
+COPY irods.logrotate /etc/logrotate.d/irods
 
 ARG irods_version=4.3.2
 ARG irods_package_version_suffix=-0~focal
