@@ -11,12 +11,15 @@ services:
         environment:
             - POSTGRES_PASSWORD=testpassword
 
+    # The activity of the iRODS server is not written to stdout or stderr.
+    # To view the activity of the server, see /var/log/irods/irods.log inside the container.
     irods-catalog-provider:
         build:
             context: irods_catalog_provider
+        init: true
         shm_size: 500mb
         healthcheck:
-            test: ["CMD", "su", "-", "irods", "-c", "./irodsctl status | grep Process"]
+            test: ["CMD-SHELL", "ls -l /irods_ready.flag && su - irods -c './irodsctl status | grep Process' || exit 1"]
             interval: 10s
             timeout: 10s
             retries: 3
