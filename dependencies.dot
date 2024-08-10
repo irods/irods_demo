@@ -8,7 +8,6 @@ digraph G {
   icommands  [label = "irods-client-icommands"];
   nfsrods    [label = "irods-client-nfsrods"];
   nginx      [label = "nginx-reverse-proxy"];
-  rest       [label = "irods-client-rest-cpp"];
   s3         [label = "irods-client-s3-api"];
   zmt        [label = "irods-client-zmt"];
   metalnxdb  [label = "metalnx-db"];
@@ -17,8 +16,7 @@ digraph G {
 
   provider -> catalog;
   icommands -> provider;
-  rest -> provider;
-  nginx -> rest;
+  nginx -> http;
   zmt -> nginx;
   metalnx -> metalnxdb;
   metalnx -> provider;
