@@ -54,30 +54,20 @@ services:
             irods-catalog-provider:
                 condition: service_healthy
 
-    irods-client-rest-cpp:
-        build:
-            context: irods_client_rest_cpp
-            dockerfile: irods_client_rest_cpp.Dockerfile
-        volumes:
-            - ./irods_client_rest_cpp/irods_client_rest_cpp.json:/etc/irods_client_rest_cpp/irods_client_rest_cpp.json:ro
-        depends_on:
-            irods-catalog-provider:
-                condition: service_healthy
-
     nginx-reverse-proxy:
         build:
-            context: irods_client_rest_cpp
-            dockerfile: nginx.Dockerfile
+            context: nginx
         ports:
             - "80:80"
         depends_on:
-            - irods-client-rest-cpp
+            irods-catalog-provider:
+                condition: service_healthy
 
     irods-client-zmt:
         build:
             context: irods_client_zone_management_tool
         environment:
-            - REACT_APP_REST_API_URL=http://localhost/irods-rest/0.9.3
+            - REACT_APP_HTTP_API_URL=http://localhost/irods-http-api/0.3.0
             - REACT_APP_APPBAR_LOGO=iRODS-logo.jpg
             - REACT_APP_LOGIN_LOGO=iRODS-logo-1.png
             - REACT_APP_BRANDING_NAME=Zone Management Tool
@@ -88,7 +78,10 @@ services:
         ports:
             - "9000:3000"
         depends_on:
-            - nginx-reverse-proxy
+            nginx-reverse-proxy:
+                condition: service_started
+            irods-client-http-api:
+                condition: service_started
 
     metalnx-db:
         build:
