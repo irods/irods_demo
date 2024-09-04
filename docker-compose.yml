@@ -27,6 +27,22 @@ services:
         depends_on:
             - irods-catalog
 
+    irods-catalog-consumer:
+        build:
+            context: irods_catalog_consumer
+        shm_size: 500mb
+        healthcheck:
+            test: ["CMD", "su", "-", "irods", "-c", "./irodsctl status | grep Process"]
+            interval: 10s
+            timeout: 10s
+            retries: 3
+            start_period: 20s
+            start_interval: 10s
+        restart: always
+        depends_on:
+            irods-catalog-provider:
+                condition: service_healthy
+
     irods-client-icommands:
         build:
             context: irods_client_icommands
