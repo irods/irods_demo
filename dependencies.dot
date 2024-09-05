@@ -4,6 +4,7 @@ digraph G {
 
   catalog    [label = "irods-catalog"];
   provider   [label = "irods-catalog-provider"];
+  consumer   [label = "irods-catalog-consumer"];
   http       [label = "irods-client-http-api"];
   icommands  [label = "irods-client-icommands"];
   nfsrods    [label = "irods-client-nfsrods"];
@@ -15,6 +16,7 @@ digraph G {
   minio      [label = "minio"];
 
   provider -> catalog;
+  consumer -> provider;
   icommands -> provider;
   nginx -> http;
   zmt -> nginx;
