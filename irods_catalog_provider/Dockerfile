@@ -46,8 +46,10 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* /tmp/*
 
 COPY unattended_install.json /
+COPY s3.keypair /var/lib/irods/
 
 WORKDIR /
+COPY firstrun.sh .
 COPY entrypoint.sh .
 RUN chmod u+x ./entrypoint.sh
 ENTRYPOINT ["./entrypoint.sh"]

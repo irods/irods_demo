@@ -75,7 +75,12 @@
             "access_entries": []
         },
         "host_resolution": {
-            "host_entries": []
+            "host_entries": [
+            {
+                "address_type": "local",
+                "addresses": ["irods-catalog-provider", "THE_HOSTNAME"]
+            }
+            ]
         },
         "log_level": {
             "agent": "info",
