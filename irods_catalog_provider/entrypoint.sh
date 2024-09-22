@@ -17,6 +17,9 @@ if [ -e "${unattended_install_file}" ]; then
     sed -i "s/THE_HOSTNAME/${HOSTNAME}/g" ${unattended_install_file}
     python3 /var/lib/irods/scripts/setup_irods.py --json_configuration_file ${unattended_install_file}
     rm ${unattended_install_file}
+
+    echo "Running firstrun.sh"
+    bash firstrun.sh
 fi
 
 echo "Starting server"
