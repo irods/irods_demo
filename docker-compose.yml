@@ -52,7 +52,7 @@ services:
                 condition: service_healthy
 
     irods-client-s3-api:
-        image: irods/irods_s3_api:0.2.0
+        image: irods/irods_s3_api:0.3.0
         volumes:
             - ./irods_client_s3_api/config.json:/config.json:ro
         ports:
