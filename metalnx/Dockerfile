@@ -1,9 +1,8 @@
-FROM irods/metalnx:2.6.1
+FROM irods/metalnx:3.0.0
 
 RUN apt-get update && \
     apt-get install -y \
-        netcat \
-        postgresql-client \
+        netcat-traditional \
     && \
     apt-get clean
 
