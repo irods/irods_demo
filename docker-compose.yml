@@ -102,12 +102,6 @@ services:
             irods-client-http-api:
                 condition: service_started
 
-    metalnx-db:
-        build:
-            context: metalnx-db
-        environment:
-            - POSTGRES_PASSWORD=password
-
     metalnx:
         build:
             context: metalnx
@@ -117,8 +111,6 @@ services:
         volumes:
             - "./metalnx/mylocal-irods-ext:/etc/irods-ext"
         depends_on:
-            metalnx-db:
-                condition: service_started
             irods-catalog-provider:
                 condition: service_healthy
 
