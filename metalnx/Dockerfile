@@ -1,4 +1,4 @@
-FROM irods/metalnx:3.0.0
+FROM irods/metalnx:3.1.0
 
 RUN apt-get update && \
     apt-get install -y \
