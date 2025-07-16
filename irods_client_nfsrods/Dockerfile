@@ -1,4 +1,4 @@
-FROM irods/nfsrods:2.1.0
+FROM irods/nfsrods:2.3.0
 
 # Install netcat in order to poke irods-catalog-provider
 RUN apt-get update && \
