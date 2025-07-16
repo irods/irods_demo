@@ -11,7 +11,6 @@ digraph G {
   nginx      [label = "nginx-reverse-proxy"];
   s3         [label = "irods-client-s3-api"];
   zmt        [label = "irods-client-zmt"];
-  metalnxdb  [label = "metalnx-db"];
   metalnx    [label = "metalnx"];
   minio      [label = "minio"];
 
@@ -20,7 +19,6 @@ digraph G {
   icommands -> provider;
   nginx -> http;
   zmt -> nginx;
-  metalnx -> metalnxdb;
   metalnx -> provider;
   http -> provider;
   s3 -> provider;
