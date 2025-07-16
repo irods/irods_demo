@@ -89,8 +89,10 @@ services:
             - REACT_APP_HTTP_API_URL=http://localhost/irods-http-api/0.5.0
             - REACT_APP_APPBAR_LOGO=iRODS-logo.jpg
             - REACT_APP_LOGIN_LOGO=iRODS-logo-1.png
+            - REACT_APP_FOOTER_LOGO=iRODS-logo.png
             - REACT_APP_BRANDING_NAME=Zone Management Tool
             - REACT_APP_PRIMARY_COLOR=#04bdaf
+            - REACT_APP_FILTER_TIME_IN_MILLISECONDS=500
         volumes:
             - ./irods_client_zone_management_tool:/usr/src/app
             - /usr/src/app/node_modules
