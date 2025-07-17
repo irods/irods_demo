@@ -7,6 +7,7 @@ RUN apt-get update && \
         apt-transport-https \
         gnupg \
         wget \
+        netcat-traditional \
     && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/*
