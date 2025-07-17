@@ -25,10 +25,6 @@ if [ -e "${unattended_install_file}" ]; then
 
     echo "Running firstrun.sh"
     bash firstrun.sh
-#    echo "first run complete"
-#    ps aux
-#    ps -F -p $(cat /var/run/irods/irods-server.pid)
-#    echo "end of entrypoint if"
 fi
 
 echo "Starting server"
