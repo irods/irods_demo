@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 su - irods -c 'irodsServer -d'
 
