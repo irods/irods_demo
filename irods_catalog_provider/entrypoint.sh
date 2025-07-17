@@ -29,11 +29,8 @@ if [ -e "${unattended_install_file}" ]; then
 #    ps aux
 #    ps -F -p $(cat /var/run/irods/irods-server.pid)
 #    echo "end of entrypoint if"
-else
-    echo "Starting server"
-    cd /usr/sbin
-    su irods -c 'irodsServer --stdout'
 fi
 
-#echo "Starting server"
-
+echo "Starting server"
+cd /usr/sbin
+su irods -c 'irodsServer --stdout'
