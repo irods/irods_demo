@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:24.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -12,17 +12,17 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* /tmp/*
 
 RUN wget -qO - https://packages.irods.org/irods-signing-key.asc | apt-key add - && \
-    echo "deb [arch=amd64] https://packages.irods.org/apt/ focal main" | tee /etc/apt/sources.list.d/renci-irods.list
+    echo "deb [arch=amd64] https://packages.irods.org/apt/ noble main" | tee /etc/apt/sources.list.d/renci-irods.list
 
-ARG icommands_version=4.3.4
-ARG icommands_package_version_suffix=-0~focal
+ARG icommands_version=5.0.1
+ARG icommands_package_version_suffix=-0~noble
 ARG icommands_package_version=${icommands_version}${icommands_package_version_suffix}
 
 RUN apt-get update && \
     apt-get install -y \
         irods-icommands=${icommands_package_version} \
         irods-runtime=${icommands_package_version} \
-        netcat \
+        netcat-traditional \
     && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/*

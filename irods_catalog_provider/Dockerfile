@@ -7,6 +7,7 @@ RUN apt-get update && \
         apt-transport-https \
         gnupg \
         wget \
+        netcat-traditional \
     && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/*
@@ -29,17 +30,18 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/*
 
-ARG irods_version=4.3.4
+ARG irods_version=5.0.1
 ARG irods_package_version_suffix=-0~noble
 ARG irods_package_version=${irods_version}${irods_package_version_suffix}
 ARG irods_package_plugin_version_suffix=-0+${irods_version}~noble
-ARG irods_resource_plugin_version=${irods_version}.0${irods_package_plugin_version_suffix}
+ARG irods_resource_plugin_version=5.0.0.0${irods_package_plugin_version_suffix}
 
 RUN apt-get update && \
     apt-get install -y \
         irods-database-plugin-postgres=${irods_package_version} \
         irods-runtime=${irods_package_version} \
         irods-server=${irods_package_version} \
+        irods-icommands=${irods_package_version} \
         irods-resource-plugin-s3=${irods_resource_plugin_version} \
     && \
     apt-get clean && \
@@ -49,7 +51,6 @@ COPY unattended_install.json /
 COPY s3.keypair /var/lib/irods/
 
 WORKDIR /
-COPY firstrun.sh .
 COPY entrypoint.sh .
 RUN chmod u+x ./entrypoint.sh
 ENTRYPOINT ["./entrypoint.sh"]

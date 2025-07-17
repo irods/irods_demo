@@ -15,14 +15,33 @@ unattended_install_file=/unattended_install.json
 if [ -e "${unattended_install_file}" ]; then
     echo "Running iRODS setup"
     sed -i "s/THE_HOSTNAME/${HOSTNAME}/g" ${unattended_install_file}
+
+    # unattended workaround for 5.0.1
+    sed -i '/^\s*setup_server_host(irods_config)/s/^/    /' /var/lib/irods/scripts/setup_irods.py
+    sed -i '/^\s*setup_server_host(irods_config)/{h;d;};/^\s*json_configuration_dict = None/{G;}' /var/lib/irods/scripts/setup_irods.py
+
     python3 /var/lib/irods/scripts/setup_irods.py --json_configuration_file ${unattended_install_file}
     rm ${unattended_install_file}
 
-    echo "Running firstrun.sh"
-    bash firstrun.sh
+    echo "Initializing server"
+    su - irods -c 'irodsServer -d'
+
+    # wait for server to respond
+    until nc -z irods-catalog-provider 1247
+    do
+        sleep 1
+    done
+
+    # create s3 resource
+    su - irods -c 'iadmin mkresc s3resc s3 irods-catalog-provider:/demobucket/thevault "S3_DEFAULT_HOSTNAME=minio:19000;S3_AUTH_FILE=/var/lib/irods/s3.keypair;S3_REGIONNAME=us-east-1;S3_RETRY_COUNT=1;S3_WAIT_TIME_SECONDS=3;S3_PROTO=HTTP;ARCHIVE_NAMING_POLICY=consistent;HOST_MODE=cacheless_attached"'
+
+    # kill server and wait for it to stop
+    kill $(cat /var/run/irods/irods-server.pid)
+    while ps -p $(cat /var/run/irods/irods-server.pid) ; do
+        sleep 1
+    done
 fi
 
 echo "Starting server"
-
 cd /usr/sbin
-su irods -c 'bash -c "./irodsServer -u"'
+su irods -c 'irodsServer --stdout'
