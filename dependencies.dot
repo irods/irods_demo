@@ -13,6 +13,7 @@ digraph G {
   zmt        [label = "irods-client-zmt"];
   metalnx    [label = "metalnx"];
   minio      [label = "minio"];
+  mango      [label = "mango"];
 
   provider -> catalog;
   consumer -> provider;
@@ -24,5 +25,6 @@ digraph G {
   s3 -> provider;
   nfsrods -> provider;
   provider -> minio;
+  mango -> provider;
 
 }
