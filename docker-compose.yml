@@ -141,3 +141,17 @@ services:
           MINIO_ROOT_PASSWORD: irodsadmin
           MINIO_ADDRESS: ":19000"
           MINIO_CONSOLE_ADDRESS: ":19001"
+
+    mango-portal:
+        build:
+            context: mango-portal
+        volumes:
+            - ./mango_zones.py:/app/irods_zones_config_minimal.py
+        environment:
+            - IRODS_ZONES_CONFIG=irods_zones_config_minimal.py
+            - MANGO_CONFIG=config_basic.py
+        ports:
+            - "8181:80"
+        depends_on:
+            irods-catalog-provider:
+                condition: service_healthy
