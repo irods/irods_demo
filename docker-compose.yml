@@ -63,7 +63,7 @@ services:
                 condition: service_healthy
 
     irods-client-http-api:
-        image: irods/irods_http_api:0.5.0
+        image: irods/irods_http_api:0.6.0
         volumes:
             - ./irods_client_http_api/config.json:/config.json:ro
         ports:
@@ -86,7 +86,7 @@ services:
         build:
             context: irods_client_zone_management_tool
         environment:
-            - REACT_APP_HTTP_API_URL=http://localhost/irods-http-api/0.5.0
+            - REACT_APP_HTTP_API_URL=http://localhost/irods-http-api/0.6.0
             - REACT_APP_APPBAR_LOGO=iRODS-logo.jpg
             - REACT_APP_LOGIN_LOGO=iRODS-logo-1.png
             - REACT_APP_FOOTER_LOGO=iRODS-logo.png
