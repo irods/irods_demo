@@ -61,7 +61,7 @@ Welcome! This guide will walk you through deploying the iRODS demo stack, settin
 Make sure you have Docker and Docker Compose installed. In your project directory, run:
 
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 This will start all required services: iRODS catalog, provider, clients, Metalnx, NFSRODS, MinIO, and NGINX reverse proxy.
