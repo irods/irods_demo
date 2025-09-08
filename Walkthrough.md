@@ -24,6 +24,7 @@ flowchart TD
         S3API["S3 API"]
         MinIO["MinIO"]
         NGINX["NGINX Reverse Proxy"]
+        ICOM["iCommands Client"]
     end
     NFS -- NFSv4 --> NFSRODS
     HTTP -- REST API --> IC
@@ -35,12 +36,13 @@ flowchart TD
     NGINX -- Proxy --> Metalnx
     NGINX -- Proxy --> S3API
     NGINX -- Proxy --> HTTP
+    ICOM -- iRODS API --> IC
     %% Add color
     classDef user fill:#e3f2fd,stroke:#2196f3,stroke-width:2px;
     classDef docker fill:#fff3e0,stroke:#fb8c00,stroke-width:2px;
     classDef service fill:#e8f5e9,stroke:#43a047,stroke-width:2px;
     class NFS,HTTP,Browser user;
-    class IC,CC,NFSRODS,Metalnx,ZMT,S3API,MinIO,NGINX docker;
+    class IC,CC,NFSRODS,Metalnx,ZMT,S3API,MinIO,NGINX,ICOM docker;
     class Metalnx,ZMT,S3API,MinIO,NFSRODS service;
 ```
 
@@ -70,10 +72,16 @@ This will start all required services: iRODS catalog, provider, clients, Metalnx
 
 ### Create a Local User
 
-1. Enter the iRODS provider container:
+1. Enter the iRODS provider container (the name is usually `irods-demo-irods-catalog-provider-1`). If you're unsure, you can look it up with:
 
    ```bash
-   docker exec -it irods_catalog_provider bash
+   docker ps --filter "name=irods-catalog-provider" --format "{{.Names}}"
+   ```
+
+   Then connect as the 'irods' user:
+
+   ```bash
+   docker exec -it irods-demo-irods-catalog-provider-1 su - irods
    ```
 
 1. Create a user named after an original iRODS developer (e.g., Reagan):
@@ -87,7 +95,7 @@ This will start all required services: iRODS catalog, provider, clients, Metalnx
 
 `rodsadmin` users have administrative privileges in iRODS.
 
-1. In the same container:
+1. In the same container, as the 'irods' user:
 
    ```bash
    iadmin mkuser Rajasekar rodsadmin
@@ -100,25 +108,44 @@ This will start all required services: iRODS catalog, provider, clients, Metalnx
 
 **Linux hosts only!** (Pull requests for other OS’s are welcome.)
 
-1. Find the NFSRODS export path:
-   - The NFSRODS export path is defined in the file `irods_client_nfsrods/nfsrods_config/exports`. This file lists the directories that NFSRODS will make available for mounting. For example, it may contain a line like `/nfsrods *(rw,sync,no_subtree_check,fsid=0)`, which means the `/nfsrods` directory is exported and can be mounted by any host.
-
-1. Mount it:
+1. Create the mount directory (if it doesn't exist):
 
    ```bash
-   sudo mount -t nfs -o vers=4 localhost:/nfsrods /mnt/nfsrods
+   sudo mkdir -p /mnt/nfsrods
    ```
 
-1. You should now see your iRODS zone as a filesystem at `/mnt/nfsrods`.
+2. Ensure the NFS client is installed (Linux):
+
+   ```bash
+   sudo apt-get update
+   sudo apt-get install nfs-common
+   ```
+
+3. Mount it (default export is `/`, so use this command):
+
+   ```bash
+   sudo mkdir -p /mnt/nfsrods
+   sudo mount -o sec=sys,port=2050 localhost:/ /mnt/nfsrods
+   ```
+
+   If you change the export path or port in `docker-compose.yml` or the exports file, update the mount command accordingly.
+
+4. Your iRODS zone will appear as a subdirectory under the mount point, typically `/mnt/nfsrods/tempZone`. All your iRODS files and directories will be accessible there.
 
 ---
 
 ## 4. Upload a File with Metadata (Command Line)
 
-1. Enter the iRODS iCommands client:
+1. Enter the iRODS iCommands client container (usually `irods-demo-irods-client-icommands-1`). If you're unsure, look it up with:
 
    ```bash
-   docker exec -it irods_client_icommands bash
+   docker ps --filter "name=irods-client-icommands" --format "{{.Names}}"
+   ```
+
+   Then run iRODS commands directly (no need to switch user):
+
+   ```bash
+   docker exec -it irods-demo-irods-client-icommands-1 bash
    ```
 
 1. Generate a simple file to upload (e.g., localfile.txt):
@@ -127,13 +154,15 @@ This will start all required services: iRODS catalog, provider, clients, Metalnx
    echo "This is a test file for iRODS." > /tmp/localfile.txt
    ```
 
-1. Upload the file and add real metadata:
+1. Upload the file and add real metadata (as the rods user):
 
    ```bash
-   iput /tmp/localfile.txt /tempZone/home/Reagan/
-   imeta add -d /tempZone/home/Reagan/localfile.txt project DemoProject
-   imeta add -d /tempZone/home/Reagan/localfile.txt owner Reagan
-   imeta add -d /tempZone/home/Reagan/localfile.txt description "Test file for walkthrough"
+   iput /tmp/localfile.txt /tempZone/home/rods/
+   imeta add -d /tempZone/home/rods/localfile.txt project DemoProject
+   imeta add -d /tempZone/home/rods/localfile.txt owner rods
+   imeta add -d /tempZone/home/rods/localfile.txt description "Test file for walkthrough"
+   ichmod read public /tempZone/home/rods/localfile.txt
+   ichmod read public /tempZone/home/rods
    ```
 
 ---
@@ -151,8 +180,8 @@ This will start all required services: iRODS catalog, provider, clients, Metalnx
 On your Linux host:
 
 ```bash
-ls /mnt/nfsrods/home/Reagan/
-cat /mnt/nfsrods/home/Reagan/localfile.txt
+ls /mnt/nfsrods/tempZone/home/rods/
+cat /mnt/nfsrods/tempZone/home/rods/localfile.txt
 ```
 
 You should see the file you uploaded.
@@ -161,38 +190,25 @@ You should see the file you uploaded.
 
 ## 7. Upload via HTTP API and Download via iCommands
 
-1. On your Linux host, generate another file to upload (e.g., anotherfile.txt):
+1. Add metadata to the uploaded file and make it readable by all users:
 
    ```bash
-   echo "This is another test file for iRODS." > /tmp/anotherfile.txt
-   ```
-
-1. On your Linux host, use the HTTP API. The endpoint URL for uploading files is typically defined in the configuration file `irods_client_http_api/config.json`. By default, the demo setup exposes the HTTP API at `http://localhost:8083/api/upload`. If you want to change the port or API path, you can edit this config file to match your environment. For most users, the provided example will work as-is:
-   - Upload the file using `curl`:
-
-     ```bash
-     curl -X POST -F "file=@/tmp/anotherfile.txt" http://localhost:8083/api/upload?path=/tempZone/home/Reagan/
-     ```
-
-1. Enter the iRODS iCommands client container to add metadata to the uploaded file:
-
-   ```bash
-   docker exec -it irods_client_icommands bash
-   imeta add -d /tempZone/home/Reagan/anotherfile.txt project DemoProject
-   imeta add -d /tempZone/home/Reagan/anotherfile.txt owner Reagan
-   imeta add -d /tempZone/home/Reagan/anotherfile.txt description "Second test file for walkthrough"
+   imeta add -d /tempZone/home/rods/anotherfile.txt project DemoProject
+   imeta add -d /tempZone/home/rods/anotherfile.txt owner rods
+   imeta add -d /tempZone/home/rods/anotherfile.txt description "Second test file for walkthrough"
+   ichmod read public /tempZone/home/rods/anotherfile.txt
    ```
 
 1. Still in the iRODS iCommands client container, download the first file:
 
    ```bash
-   iget /tempZone/home/Reagan/localfile.txt /tmp/localfile.txt
+   iget /tempZone/home/rods/localfile.txt /tmp/localfile.txt
    ```
 
 1. Check both files:
 
    ```bash
-   ils /tempZone/home/Reagan/
+   ils /tempZone/home/rods/
    ```
 
 ---
