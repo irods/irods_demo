@@ -77,12 +77,17 @@
         "environment_variables": {},
         "federation": [],
         "graceful_shutdown_timeout_in_seconds": 30,
-        "host": "THE_HOSTNAME",
+        "host": "irods-catalog-consumer",
         "host_access_control": {
             "access_entries": []
         },
         "host_resolution": {
-            "host_entries": []
+            "host_entries": [
+            {
+                "address_type": "local",
+                "addresses": ["irods-catalog-consumer", "THE_HOSTNAME"]
+            }
+            ]
         },
         "log_level": {
             "agent": "info",

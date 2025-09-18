@@ -55,7 +55,7 @@
             "transfer_chunk_size_for_parallel_transfer_in_megabytes": 40
         },
         "catalog_provider_hosts": [
-            "THE_HOSTNAME"
+            "irods-catalog-provider"
         ],
         "catalog_service_role": "provider",
         "client_server_policy": "CS_NEG_REFUSE",
@@ -77,7 +77,7 @@
         "environment_variables": {},
         "federation": [],
         "graceful_shutdown_timeout_in_seconds": 30,
-        "host": "THE_HOSTNAME",
+        "host": "irods-catalog-provider",
         "host_access_control": {
             "access_entries": []
         },
