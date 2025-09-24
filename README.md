@@ -17,22 +17,30 @@ A minimal configuration will have:
 - 4 GB RAM
 - 10 GB storage
 
+A walkthrough of the demo stack is available in [Walkthrough.md](Walkthrough.md).
+
+---
+
 ## Run
 
 If you have not initialized submodules in this repo, run the following before attempting to start the Compose project:
+
+```bash
+git submodule update --init
 ```
-$ git submodule update --init
-```
-`git submodule update` should be run any time the submodule is updated, so make sure to run it any time you pull or checkout different commits.
+
+**Important** `git submodule update` should be run any time the submodule is updated, so make sure to run it any time you pull or checkout different commits.
 
 To run all services:
+
 ```bash
-$ docker compose up
+docker compose up
 ```
 
 To run an individual service (and all services on which it depends):
+
 ```bash
-$ docker compose up <service-name>
+docker compose up <service-name>
 ```
 
 For example, this command will spawn containers for the following services:
@@ -44,7 +52,7 @@ For example, this command will spawn containers for the following services:
 5. `irods-client-zmt`
 
 ```bash
-$ docker compose up irods-client-zmt
+docker compose up irods-client-zmt
 ```
 
 For more information about Compose CLI options, see Docker Compose documentation: https://docs.docker.com/engine/reference/commandline/compose
@@ -63,17 +71,35 @@ The ZMT service assumes that containers are running on the same host as the brow
 ### `irods-client-nfsrods` / NFSRODS
 
 Once the service is running, the NFS server needs to be accessed from a mountpoint. This can be done with the following command:
+
 ```bash
-$ sudo mount -o sec=sys,port=2050 localhost:/ ./irods_client_nfsrods/nfs_mount
+sudo mount -o sec=sys,port=2050 localhost:/ ./irods_client_nfsrods/nfs_mount
 ```
+
 The hostname can also be the IP address of the container providing the service in the `irods-demo_default` Docker network if running from the same host. The mountpoint can exist on any other machine which can reach the host running the container providing the service because the port is being exposed, in which case the FQDN or IP address for the host machine can be used. For more information about mounting NFSRODS, see the README for the project: https://github.com/irods/irods_client_nfsrods#mounting
 
-When you are ready to stop the service, it would be a good idea to unmount first. This can be done by running the following:
+The NFSRODS service maps the `/etc/passwd` file on the host machine to the `/etc/passwd` file in the container providing the service. The user(s) accessing the mountpoint will need to exist as iRODS users as well in order to be able to interact with the mountpoint. This can be done by running the following command on the host machine for each `username` which needs to be mapped:
+
 ```bash
-$ sudo umount ./irods_client_nfsrods/nfs_mount
+docker exec irods-demo-irods-client-icommands-1 iadmin mkuser <username> rodsuser
 ```
 
-The NFSRODS service maps the `/etc/passwd` file on the host machine to the `/etc/passwd` file in the container providing the service. The user(s) accessing the mountpoint will need to exist as iRODS users as well in order to be able to interact with the mountpoint. This can be done by running the following command on the host machine for each `username` which needs to be mapped:
+### `irods-client-http-api` / iRODS HTTP API
+
+The HTTP API service assumes that containers are running on the same host as the browser. If this is not the case (launching irods_demo via ssh, etc.), the value of `IRODS_HOST` should be changed to an address which correctly maps to the `irods-catalog` service and that is reachable by both the HTTP API service and the host running the browser.
+
+## Cleanup
+
+When you are ready to stop the service, it would be a good idea to unmount first. This can be done by running the following:
+
 ```bash
-$ docker exec irods-demo-irods-client-icommands-1 iadmin mkuser <username> rodsuser
+sudo umount ./irods_client_nfsrods/nfs_mount
 ```
+
+To really clean up everything, you can run:
+
+```bash
+docker compose down --volumes --rmi all --remove-orphans
+```
+
+This will remove all services, their associated volumes, all images, and any orphaned containers.
