@@ -30,11 +30,11 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* /tmp/*
 
-ARG irods_version=5.0.1
+ARG irods_version=5.0.2
 ARG irods_package_version_suffix=-0~noble
 ARG irods_package_version=${irods_version}${irods_package_version_suffix}
 ARG irods_package_plugin_version_suffix=-0+${irods_version}~noble
-ARG irods_resource_plugin_version=5.0.0.0${irods_package_plugin_version_suffix}
+ARG irods_resource_plugin_version=5.0.1${irods_package_plugin_version_suffix}
 
 RUN apt-get update && \
     apt-get install -y \
