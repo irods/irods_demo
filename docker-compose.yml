@@ -52,9 +52,11 @@ services:
                 condition: service_healthy
 
     irods-client-s3-api:
-        image: irods/irods_s3_api:0.4.0
+        image: irods/irods_s3_api:0.5.0
         volumes:
             - ./irods_client_s3_api/config.json:/config.json:ro
+            - ./irods_client_s3_api/bucket_mappings.json:/bucket_mappings.json:ro
+            - ./irods_client_s3_api/user_mappings.json:/user_mappings.json:ro
         ports:
             - "9002:9000"
         restart: on-failure

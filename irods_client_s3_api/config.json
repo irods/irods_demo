@@ -3,32 +3,20 @@
         "host": "0.0.0.0",
         "port": 9000,
         "log_level": "info",
-        "plugins": {
-            "static_bucket_resolver": {
-                "name": "static_bucket_resolver",
-                "mappings": {
-                    "demo_bucket": "/tempZone/home/public"
-                }
-            },
-
-            "static_authentication_resolver": {
-                "name": "static_authentication_resolver",
-                "users": {
-                    "s3rods": {
-                        "username": "rods",
-                        "secret_key": "the_secret"
-                    }
-                }
+        "bucket_mapping": {
+            "plugin_path": "/usr/lib/irods_s3_api/plugins/bucket_mapping/libirods_s3_api_plugin-bucket_mapping-local_file.so",
+            "configuration": {
+                "file_path": "/bucket_mappings.json"
+            }
+        },
+        "user_mapping": {
+            "plugin_path": "/usr/lib/irods_s3_api/plugins/user_mapping/libirods_s3_api_plugin-user_mapping-local_file.so",
+            "configuration": {
+                "file_path": "/user_mappings.json"
             }
         },
         "region": "us-east-1",
         "multipart_upload_part_files_directory": "/tmp",
-        "authentication": {
-            "eviction_check_interval_in_seconds": 60,
-            "basic": {
-                "timeout_in_seconds": 3600
-            }
-        },
         "requests": {
             "threads": 3,
             "max_size_of_request_body_in_bytes": 8388608,
@@ -42,13 +30,6 @@
         "host": "irods-catalog-provider",
         "port": 1247,
         "zone": "tempZone",
-        "tls": {
-            "client_server_policy": "CS_NEG_REFUSE",
-            "ca_certificate_file": "<string>",
-            "certificate_chain_file": "<string>",
-            "dh_params_file": "<string>",
-            "verify_server": "cert"
-        },
         "enable_4_2_compatibility": false,
         "proxy_admin_account": {
             "username": "rods",
