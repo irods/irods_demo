@@ -12,7 +12,7 @@ digraph G {
   s3             [label = "irods-client-s3-api"];
   zmt            [label = "irods-client-zmt"];
   metalnx        [label = "metalnx"];
-  minio          [label = "minio"];
+  rustfs         [label = "rustfs"];
   sql_exporter   [label = "sql-exporter"];
   prometheus     [label = "prometheus"];
   grafana        [label = "grafana"];
@@ -26,7 +26,7 @@ digraph G {
   http -> provider;
   s3 -> provider;
   nfsrods -> provider;
-  provider -> minio;
+  provider -> rustfs;
   sql_exporter -> catalog;
   prometheus -> sql_exporter;
   grafana -> prometheus;
