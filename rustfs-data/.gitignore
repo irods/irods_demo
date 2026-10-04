@@ -1,4 +1,4 @@
-# Ignore MinIO data
+# Ignore RustFS data
 *
 # Don't ignore .gitignore
 !.gitignore
