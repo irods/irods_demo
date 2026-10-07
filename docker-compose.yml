@@ -16,6 +16,9 @@ services:
         build:
             context: irods_catalog_provider
         shm_size: 500mb
+        ports:
+          - "1247:1247"
+          - "20000-20199:20000-20199"
         healthcheck:
             test: ["CMD", "su", "-", "irods", "-c", 'echo -e "\x00\x00\x00\x33<MsgHeader_PI><type>HEARTBEAT</type></MsgHeader_PI>" | (exec 3<>/dev/tcp/127.0.0.1/1247; cat >&3; cat <&3; exec 3<&-)']
             interval: 10s
