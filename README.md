@@ -51,6 +51,16 @@ For more information about Compose CLI options, see Docker Compose documentation
 
 ## Notes for services
 
+### `irods-pgbouncer` / catalog connection pooling
+
+The catalog provider connects to PgBouncer, which reuses connections to the `irods-catalog` PostgreSQL service. Session pooling is used so short-lived connections (such as those opened for GenQuery2 queries) can reuse a PostgreSQL connection after disconnecting. The `sql-exporter` continues to query PostgreSQL directly. PgBouncer is available only on the Compose network; it has no published host port.
+
+To inspect the pool without Grafana, run:
+
+```bash
+docker compose exec irods-pgbouncer sh -c 'PGPASSWORD=testpassword psql -h 127.0.0.1 -U irods -d pgbouncer -c "SHOW POOLS;"'
+```
+
 ### `irods-client-zmt` / Zone Management Tool / ZMT
 
 The ZMT service assumes that containers are running on the same host as the browser. If this is not the case (launching irods_demo via ssh, etc.), the value of `REACT_APP_HTTP_API_URL` should be changed to an address which correctly maps to the `nginx-reverse-proxy` service and that is reachable by both the ZMT service and the host running the browser.

@@ -3,6 +3,7 @@ digraph G {
   rankdir="BT"
 
   catalog        [label = "irods-catalog"];
+  pgbouncer      [label = "irods-pgbouncer"];
   provider       [label = "irods-catalog-provider"];
   consumer       [label = "irods-catalog-consumer"];
   http           [label = "irods-client-http-api"];
@@ -17,7 +18,8 @@ digraph G {
   prometheus     [label = "prometheus"];
   grafana        [label = "grafana"];
 
-  provider -> catalog;
+  pgbouncer -> catalog;
+  provider -> pgbouncer;
   consumer -> provider;
   icommands -> provider;
   nginx -> http;

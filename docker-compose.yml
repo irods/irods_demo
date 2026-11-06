@@ -12,6 +12,30 @@ services:
             - POSTGRES_PASSWORD=testpassword
         restart: always
 
+    irods-pgbouncer:
+        image: edoburu/pgbouncer:v1.26.1-p0
+        environment:
+            - DB_HOST=irods-catalog
+            - DB_NAME=ICAT
+            - DB_USER=irods
+            - DB_PASSWORD=testpassword
+            # PostgreSQL 17 authenticates the irods user with SCRAM.
+            - AUTH_TYPE=scram-sha-256
+            - POOL_MODE=session
+            - DEFAULT_POOL_SIZE=20
+            - MAX_CLIENT_CONN=100
+            - STATS_USERS=irods
+        healthcheck:
+            test: ["CMD-SHELL", "PGPASSWORD=testpassword psql -h 127.0.0.1 -p 5432 -U irods -d ICAT -tAc 'SELECT 1' | grep -qx 1"]
+            interval: 10s
+            timeout: 10s
+            retries: 3
+            start_period: 20s
+            start_interval: 10s
+        restart: always
+        depends_on:
+            - irods-catalog
+
     irods-catalog-provider:
         build:
             context: irods_catalog_provider
@@ -25,8 +49,10 @@ services:
             start_interval: 10s
         restart: always
         depends_on:
-            - irods-catalog
-            - rustfs
+            irods-pgbouncer:
+                condition: service_healthy
+            rustfs:
+                condition: service_started
 
     irods-catalog-consumer:
         build:
