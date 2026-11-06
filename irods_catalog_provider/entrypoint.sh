@@ -1,15 +1,15 @@
 #! /bin/bash -e
 
-catalog_db_hostname=irods-catalog
+catalog_db_hostname=irods-pgbouncer
 
-echo "Waiting for iRODS catalog database to be ready"
+echo "Waiting for iRODS catalog database via PgBouncer to be ready"
 
-until pg_isready -h ${catalog_db_hostname} -d ICAT -U irods -q
+until PGPASSWORD=testpassword psql -h "${catalog_db_hostname}" -p 5432 -d ICAT -U irods -tAc 'SELECT 1' 2>/dev/null | grep -qx 1
 do
     sleep 1
 done
 
-echo "iRODS catalog database is ready"
+echo "iRODS catalog database via PgBouncer is ready"
 
 unattended_install_file=/unattended_install.json
 if [ -e "${unattended_install_file}" ]; then

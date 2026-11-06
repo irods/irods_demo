@@ -112,7 +112,7 @@
             "authentication": {},
             "database": {
                 "technology": "postgres",
-                "host": "irods-catalog",
+                "host": "irods-pgbouncer",
                 "name": "ICAT",
                 "odbc_driver": "PostgreSQL ANSI",
                 "password": "testpassword",
